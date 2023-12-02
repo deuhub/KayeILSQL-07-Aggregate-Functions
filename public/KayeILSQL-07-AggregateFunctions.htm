@@ -1,0 +1,2260 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>KayeILSQL-07-Aggregate Functions</title>
+
+    <meta charset="UTF-8">
+    <meta name="description" content="KayeILSQL-07-Aggregate Functions">
+    <meta name="keywords" content="Kaye is Learning SQL, #kayeIsLearningSQL, 
+  #aggregate, Aggregate Functions, #aggregatefunctions,
+  First and Last, #firstandlast, #first, #last,
+  group by, #groupby, having, #having, count #count,
+  count distinct, #countdistinct
+ ">
+    <meta name="author" content="Dicle Ertan Ülger">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        h1 {
+            color: rgb(8, 51, 143);
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            page-break-before: always;
+        }
+
+        h2 {
+            color: rgb(125, 186, 0);
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            page-break-before: always;
+        }
+
+        h3 {
+            color: rgb(0, 184, 224);
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+        h4 {
+            color: rgb(222, 59, 33);
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: large;
+        }
+
+
+        h5 {
+            color: rgb(0, 196, 181);
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: large;
+        }
+
+        h6 {
+            color: rgb(144, 36, 143);
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: large;
+        }
+
+        p {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .note-emoji-300 {
+            font-size: 300%;
+
+        }
+
+
+        .note-bold {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-weight: bold;
+        }
+
+
+        .note-bold-italic {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-weight: bold;
+            font-style: italic;
+        }
+
+        .note-bold-navy {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-weight: bold;
+            color: rgb(8, 51, 143);
+        }
+
+        .note-bold-navy-italic {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-weight: bold;
+            color: rgb(8, 51, 143);
+            font-style: italic;
+        }
+
+        .note-bold-navy-larger {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-weight: bold;
+            color: rgb(8, 51, 143);
+            font-size: larger;
+        }
+
+        .note-bold-larger {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-weight: bold;
+            font-size: larger;
+        }
+
+        .note-bold-red {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            color: rgb(222, 59, 33);
+            font-weight: bold;
+        }
+
+        .note-bold-red-larger {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            color: rgb(222, 59, 33);
+            font-weight: bold;
+            font-size: larger;
+        }
+
+        .note-bold-red-italic {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            color: rgb(222, 59, 33);
+            font-weight: bold;
+            font-style: italic;
+        }
+
+        .note-10 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            color: rgb(222, 59, 33);
+            background-color: rgb(247, 181, 18);
+            padding: 30px;
+            font-weight: bold;
+        }
+
+        .note-20 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            color: rgb(222, 59, 33);
+            font-weight: bold;
+        }
+
+        .note-25 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            color: rgb(222, 59, 33);
+            font-weight: bold;
+            font-style: italic;
+        }
+
+        .note-30 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgb(247, 181, 18);
+            padding: 30px;
+            font-weight: bold;
+        }
+
+        .note-40 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgb(0, 184, 224);
+            padding: 30px;
+            font-weight: bold;
+        }
+
+        .note-50 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 184, 224, 25%);
+            padding: 30px;
+            font-weight: bold;
+        }
+
+        .note-55 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 184, 224, 25%);
+            padding: 30px;
+            font-weight: bold;
+            font-size: larger;
+        }
+
+        .note-60 {
+            background-color: rgb(247, 181, 18);
+            color: rgb(8, 51, 143);
+            font-size: larger;
+            font-weight: bold;
+            padding: 30px;
+        }
+
+        .note-70 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 184, 224, 25%);
+            padding: 20px;
+        }
+
+        .note-75 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 184, 224, 25%);
+            color: rgb(222, 59, 33);
+            padding: 30px;
+            font-weight: bold;
+            font-size: larger;
+        }
+
+        .note-80 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgb(247, 181, 18);
+            color: rgb(222, 59, 33);
+            padding: 30px;
+            font-weight: bold;
+        }
+
+
+        .note-85 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgb(247, 181, 18);
+            color: rgb(222, 59, 33);
+            padding: 30px;
+            font-weight: bold;
+            font-size: larger;
+        }
+
+        .note-jci-green {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgb(125, 186, 0);
+            padding: 30px;
+        }
+
+        .note-jci-green-3 {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-size: larger;
+            font-weight: bold;
+            background-color: rgb(125, 186, 0);
+            padding: 30px;
+        }
+
+
+        .note-90 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(125, 186, 0, 25%);
+            padding: 30px;
+
+        }
+
+        .note-cyan-a30 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 184, 224, 30%);
+            padding: 30px;
+        }
+
+        .note-95 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 184, 224, 10%);
+            padding: 30px;
+        }
+
+        .note-95-a15 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 184, 224, 15%);
+            padding: 30px;
+        }
+
+        .note-95-a20 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 184, 224, 20%);
+            padding: 30px;
+        }
+
+        .note-95-a30 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 184, 224, 30%);
+            padding: 30px;
+        }
+
+        .note-95-a30-larger {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 184, 224, 30%);
+            padding: 30px;
+            font-size: larger;
+        }
+
+        .note-jci-cyan {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgb(0, 184, 224);
+            padding: 30px;
+        }
+
+        .note-jci-cyan-10 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 184, 224, 10%);
+            padding: 30px;
+        }
+
+        .note-jci-cyan-larger {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgb(0, 184, 224);
+            padding: 30px;
+            font-size: larger;
+        }
+
+        .note-96 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 184, 224, 10%);
+            padding: 30px;
+            font-size: larger;
+        }
+
+        .note-97 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(125, 186, 0, 10%);
+            padding: 30px;
+
+        }
+
+        .note-97-a15 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(125, 186, 0, 15%);
+            padding: 30px;
+
+        }
+
+        .note-97-a30 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(125, 186, 0, 30%);
+            padding: 30px;
+        }
+
+        .note-98 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(125, 186, 0, 10%);
+            padding: 30px;
+            font-size: larger;
+
+        }
+
+        .note-jcigreen-larger {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            color: rgb(125, 186, 0);
+            font-size: larger;
+            font-weight: bold;
+        }
+
+        .note-110 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            color: rgb(199, 15, 175);
+            font-weight: bold;
+        }
+
+        .note-115 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(199, 15, 175, 25%);
+            padding: 30px;
+            font-weight: bold;
+        }
+
+        .note-117 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(199, 15, 175, 10%);
+            padding: 30px;
+        }
+
+        .note-117-a05 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(199, 15, 175, 5%);
+            padding: 30px;
+        }
+
+
+        .note-117-a10 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(199, 15, 175, 10%);
+            padding: 30px;
+        }
+
+        .note-117-a15 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(199, 15, 175, 15%);
+            padding: 30px;
+        }
+
+        .note-117-a30 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(199, 15, 175, 30%);
+            padding: 30px;
+        }
+
+        .note-117-a50 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(199, 15, 175, 50%);
+            padding: 30px;
+        }
+
+        .note-117-a70 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(199, 15, 175, 70%);
+            padding: 30px;
+        }
+
+        .note-117-larger {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            color: rgb(199, 15, 175);
+            font-size: larger;
+            font-weight: bold;
+        }
+
+        .note-200 {
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .note-210 {
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+        }
+
+
+
+        .note-300 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgb(102, 99, 102);
+            color: rgb(245, 245, 245);
+            padding: 30px;
+            font-weight: bold;
+        }
+
+
+        .note-charcoal-larger {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            color: rgb(102, 99, 102);
+            font-size: larger;
+            font-weight: bold;
+        }
+
+        .note-charcoal {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgb(102, 99, 102);
+            padding: 30px;
+        }
+
+        .note-charcoal-a70 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(102, 99, 102, 70%);
+            padding: 30px;
+        }
+
+        .note-charcoal-a50 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(102, 99, 102, 50%);
+            padding: 30px;
+        }
+
+        .note-charcoal-a30 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(102, 99, 102, 30%);
+            padding: 30px;
+        }
+
+        .note-charcoal-a30-large {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(102, 99, 102, 30%);
+            padding: 30px;
+            font-size: larger;
+            font-weight: bold;
+        }
+
+        .note-charcoal-a30-largexx {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(102, 99, 102, 30%);
+            padding: 30px;
+            font-size: xx-large;
+            font-weight: bold;
+        }
+
+        .note-solaryellow-a30 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(247, 181, 18, 30%);
+            padding: 30px;
+        }
+
+        .note-brightgreen-larger {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgb(196, 219, 13);
+            font-size: larger;
+            font-weight: bold;
+            padding: 30px;
+        }
+
+        .note-brightgreen {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgb(196, 219, 13);
+            padding: 30px;
+        }
+
+        .note-brightgreen-a70 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(196, 219, 13, 70%);
+            padding: 30px;
+        }
+
+        .note-brightgreen-a50 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(196, 219, 13, 50%);
+            padding: 30px;
+        }
+
+        .note-brightgreen-a30 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(196, 219, 13, 30%);
+            padding: 30px;
+        }
+
+        .note-brightgreen-a10 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(196, 219, 13, 10%);
+            padding: 30px;
+        }
+
+        .note-brightgreen-a05 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(196, 219, 13, 5%);
+            padding: 30px;
+        }
+
+        .note-oceangreen-larger {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 196, 181);
+            font-size: larger;
+            font-weight: bold;
+            padding: 30px;
+        }
+
+        .note-oceangreen {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 196, 181);
+            padding: 30px;
+        }
+
+        .note-oceangreen-a05 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 196, 181, 5%);
+            padding: 30px;
+        }
+
+        .note-oceangreen-a10 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 196, 181, 10%);
+            padding: 30px;
+        }
+
+        .note-oceangreen-a30 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 196, 181, 30%);
+            padding: 30px;
+        }
+
+        .note-oceangreen-a50 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 196, 181, 50%);
+            padding: 30px;
+        }
+
+        .note-oceangreen-a70 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 196, 181, 70%);
+            padding: 30px;
+        }
+
+
+        .note-radient-red-larger {
+            background-color: rgb(168, 3, 79);
+            color: rgb(245, 245, 245);
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: larger;
+            font-weight: bold;
+            padding: 30px;
+        }
+
+        .note-radient-red {
+            background-color: rgb(168, 3, 79);
+            color: rgb(245, 245, 245);
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            padding: 30px;
+        }
+
+        .note-radient-red-a70 {
+            background-color: rgba(168, 3, 79, 70%);
+            color: rgb(245, 245, 245);
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            padding: 30px;
+        }
+
+        .note-radient-red-a50 {
+            background-color: rgba(168, 3, 79, 50%);
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            padding: 30px;
+        }
+
+        .note-radient-red-a30 {
+            background-color: rgba(168, 3, 79, 30%);
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            padding: 30px;
+        }
+
+        .note-radient-red-a10 {
+            background-color: rgba(168, 3, 79, 10%);
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            padding: 30px;
+        }
+
+        .note-radient-red-a05 {
+            background-color: rgba(168, 3, 79, 5%);
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            padding: 30px;
+        }
+
+        ul {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            line-height: 30px;
+        }
+
+        ol {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            line-height: 30px;
+        }
+
+        dl {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            line-height: 30px;
+        }
+
+        dt {
+            font-size: larger;
+        }
+
+        #t20 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+
+        }
+
+        table {
+            width: 100%;
+            text-align: left;
+            font-size: small;
+        }
+
+        table,
+        th,
+        td {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 10px;
+        }
+
+        div {
+            overflow-x: auto;
+
+        }
+
+        figcaption {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+        p.lh2 {
+            line-height: 2;
+        }
+
+        ul.lh3 {
+            line-height: 3;
+        }
+
+
+        #table_and table,
+        th,
+        td {
+            padding: 30px;
+            text-align: center;
+            border-collapse: collapse;
+            font-size: larger;
+        }
+    </style>
+
+</head>
+
+<body>
+
+
+    <h1>KayeILSQL-07-Aggregate Functions</h1>
+    <p></p>
+    <!--    <img src="deu.png" style="max-width:100% ;" height="auto" alt="just me"> -->
+
+    <p></p>
+    <div class="note-55">
+        <p style="font-size: larger;">Contents</p>
+    </div>
+
+
+    <!-- -->
+    <div class="note-95">
+        <p style="font-size: larger; font-weight: bold;">
+            <a href="#based_on"> Based On </a>
+        </p>
+
+        <ul>
+            <li><a href="#based_on_experience">Based On &mdash; Experience</a> </li>
+            <li><a href="#based_on_data_model">Based On &mdash; European Parliament as Data Model</a> </li>
+            <li><a href="#based_on_references">Based On &mdash; Oracle Database as RDBMS</a> </li>
+        </ul>
+
+        <!-- -->
+        <p style="font-size: larger; font-weight: bold;">
+            <a href="#aggdef">About Aggregate Functions</a>
+        </p>
+        <ul>
+            <li><a href="#aggdef_dict">Dictionary Definition of Aggregate</a></li>
+            <li><a href="#aggdef_sql">Definition of Aggregate in SQL</a></li>
+
+        </ul>
+
+        <p style="font-size: larger; font-weight: bold;">
+            <a href="#group">USING the GROUP BY Clause</a>
+        </p>
+        <ul>
+            <li><a href="#group_ex1">GROUP BY - Example 1</a></li>
+            <li><a href="#group_ex2">GROUP BY - Example 2</a></li>
+            <li><a href="#group_ex3">GROUP BY - Example 3</a></li>
+            <li><a href="#group_ex4">GROUP BY - Example 4</a></li>
+            <li><a href="#group_ex5">GROUP BY - Example 5</a></li>
+            <li><a href="#group_ex6">GROUP BY - Example 6</a></li>
+        </ul>
+
+        <p style="font-size: larger; font-weight: bold;">
+            <a href="#count">COUNT() Group Function</a>
+        </p>
+        <ul>
+            <li><a href="#count_ex1">COUNT(*)</a></li>
+            <li><a href="#count_ex2">COUNT(column_name)</a></li>
+            <li><a href="#count_ex3">COUNT(DISTINCT column_name)</a></li>
+            <li><a href="#count_ex4">COUNT() Example</a></li>
+            <li><a href="#count_ex5">Another COUNT() Example</a></li>
+        </ul>
+
+
+        <p style="font-size: larger; font-weight: bold;">
+            <a href="#hv">HAVING Clause</a>
+        </p>
+        <ul>
+            <li><a href="#hv_about">HAVING - About</a></li>
+            <li><a href="#hv_process_order">HAVING - ORDER of PROCESS</a></li>
+            <li><a href="#hv_ex1">HAVING - Example</a></li>
+            <ul>
+                <li><a href="#hv_ex1_req">Report Requirements</a></li>
+                <li><a href="#hv_ex1_no">Query with No Restrictions/Eliminations</a></li>
+                <li><a href="#hv_ex1_where">WHERE Clause Elimination</a></li>
+                <li><a href="#hv_ex1_having">HAVING Clause Elimination</a></li>
+            </ul>
+
+
+
+        </ul>
+        <p style="font-size: larger; font-weight: bold;">
+            <a href="#fl">FIRST and LAST</a>
+        </p>
+        <ul>
+            <li><a href="#fl_req">FIRST and LAST &mdash; Report Requirements</a></li>
+            <li><a href="#fl_feel">A Feel of Our Data</a></li>
+            <li><a href="#fl_sel">FIRST and LAST &mdash; SELECT Statement</a></li>
+            <li><a href="#fl_about">FIRST and LAST &mdash; About</a></li>
+        </ul>
+        <!-- -->
+        <p style="font-size: larger; font-weight: bold;">
+            <a href="#references"> References </a>
+        </p>
+    </div>
+    <p></p>
+
+    <h2 id="based_on">Based On</h2>
+    <ul>
+        <li><a href="#based_on_experience">Based On &mdash; Experience</a> </li>
+        <li><a href="#based_on_data_model">Based On &mdash; European Parliament as Data Model</a> </li>
+        <li><a href="#based_on_references">Based On &mdash; Oracle Database as RDBMS</a> </li>
+    </ul>
+    <h3 id="based_on_experience">Based On &mdash; Experience</h3>
+    <div class="note-charcoal-a30-large">
+
+
+        <p>The contents of this work are based on;
+        </p>
+    </div>
+    <p>
+
+    </p>
+
+
+    <ul class="note-117">
+        <li>the SQL Courses I delivered to Oracle Customers in
+            Oracle Turkey, during 1995-2002,
+        </li>
+        <li>the SQL Courses I delivered to the students of
+            the evening programs
+            in Bahçeşehir University,
+            Istanbul, during 2007-2009,</li>
+        <li>the in-house SQL Courses I delivered to my colleagues
+            in Johnson Controls, Istanbul Technology Center,
+            during 2009-2012,</li>
+        <li>the in-house SQL Courses I delivered to my colleagues
+            in Toyzz Shop HQ, Şekerpınar Kocaeli, during 2014-2021,
+        </li>
+        <li>most of my career in IT where I used hands-on SQL as
+            a base of the development tools starting from 1987 &mdash;
+            30 years of lapse time approximately.</li>
+    </ul>
+
+
+
+    <h3 id="based_on_data_model">Based On &mdash; European Parliament as Data Model</h3>
+
+    <p> This text on SQL is based on the
+        <span class="note-bold-navy">EP-European Parliament </span>
+        as Data Model.
+    </p>
+
+
+
+
+
+
+    <span class="note-bold"> </span>
+    <span class="note-bold-navy"> </span>
+    <span class="note-bold-italic"> </span>
+    <span class="note-bold-navy-italic"> </span>
+
+    <p></p>
+    <p></p>
+    <p></p>
+
+    <div class="note-95">
+        <span class="note-bold"> </span>
+        <span class="note-bold-navy"> </span>
+        <span class="note-bold-italic"> </span>
+        <span class="note-bold-navy-italic"> </span>
+        <p>The
+            <span class="note-bold-navy">European Parliament (EP)</span>
+            is the parliamentary institution of the
+            <span class="note-bold">European Union (EU)</span>.
+        </p>
+        <p>
+            The European Parliament is elected by the citizens of the European Union to represent their interests.</p>
+        <p> Its origins go back to the 1950s and the founding Treaties.
+            Since 1979 its members have been directly elected by the citizens of the EU.</p>
+
+    </div>
+    <p></p>
+    <div class="note-97">
+        <p>Elections are held every five years, and every EU citizen is entitled to vote, and to stand as a candidate,
+            wherever they live in the EU.
+            Parliament thus expresses the democratic will of the
+            European Union's nearly 500 million citizens and
+            it represents their interests in discussions with the other EU institutions. </p>
+
+    </div>
+
+    <p></p>
+
+    <p></p>
+
+    <div class="note-jci-green-3">
+        <p>Please Note:</p>
+        <p>
+        <ul style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-size: larger;
+            font-weight: bold;
+            ">
+            <li> The European Parliament model and data used in this SQL text,
+                are based on the elections which were held in June 2004.</li>
+            <li>The European Parliament of 2004 elections had 785 members from all 27 EU countries.</li>
+        </ul>
+        </p>
+    </div>
+    <p></p>
+
+    <p></p>
+    <div class="note-95">
+        <p>The sources for the data, which are all freely obtainable from the European Union website,
+            and from several leaflets of the EU institutions,
+            are listed in the
+            <a href="#references"> References</a>
+            section.
+        </p>
+
+        <span class="note-bold"> </span>
+        <span class="note-bold-navy"> </span>
+        <span class="note-bold-italic"> </span>
+        <span class="note-bold-navy-italic"> </span>
+        <p>These sources are used to create
+            <span class="note-bold-navy-italic">the fictitious Business Narrative</span>
+
+            of the
+            <span class="note-bold">"Data Modelling and Normalization"</span>
+            Chapter.
+        </p>
+        <p>We called this
+            <span class="note-bold-navy">Business Narrative</span>;
+            <span class="note-bold">"the Story of the European Union"</span>
+            which explains about the EU and EP,
+            for purposes of Data Modeling.
+        </p>
+
+  <!--     <p>You can access our
+            <span class="note-bold-navy">Business Narrative</span>,
+            <span class="note-bold">the Story of the European Union</span>
+            <a href="kayeILSQL-StoryEuropeanUnion.htm" target="_blank">here</a>.
+        </p>
+
+-->  
+<p>You can access our
+    <span class="note-bold-navy">Business Narrative</span>, 
+    in the  Chapter named 
+    <span class="note-bold">The Story of the European Union</span>
+of <b> Kaye is Learning SQL</b>.
+</p>
+
+
+
+
+    </div>
+
+    <p></p>
+    <h3 id="based_on_references">Based On &mdash; Oracle Database as RDBMS</h3>
+
+    <p> This text on SQL is based on the
+        <span class="note-bold-navy">Oracle Database</span>
+        as RDBMS &mdash; Relational Database Management System.
+    </p>
+
+    <p>Although the <b>SQL Statements</b> used in this text, apply specifically
+        to the Oracle Database implementation of SQL,
+        they are generally compatible with
+        many other RDBMS SQL implementations.</p>
+
+    <p> The knowledge in the following sections are based
+        on my personal work experience, as well as on
+        several Oracle Documentation,
+        which are freely downloadable from Oracle websites.
+    </p>
+    <p>You can find a list of these documents in the
+        <a href="#references"> References</a>.
+    </p>
+    <p>The name of the documents may change in time.</p>
+    <p>
+        <span class="note-bold-navy">
+            You can refer to the Oracle Documentation if you need more detailed
+            information on any of the topics in this text.</span>
+    </p>
+    <p>Any errors present, are mine.</p>
+    <div class="note-97">
+
+        <img src="../images/c7/garden-9983.jpg" style="max-width:100% ;" height="auto" alt="Breath of Fresh Air">
+
+        <p> </p>
+
+    </div>
+    <p></p>
+
+    <p></p>
+    <!--  -->
+
+    <h2 id="aggdef">About Aggregate Functions</h2>
+    <div class="note-95">
+        <p><b>Aggregate Functions</b> return a single result row
+            <b>based on groups of rows</b>,
+            rather than on single rows.
+        </p>
+        <p>Aggregate Functions are used in:</p>
+        <b>
+            <ul>
+                <li>SELECT lists
+                </li>
+                <li>ORDER BY clauses
+                </li>
+                <li>HAVING clauses
+                </li>
+            </ul>
+        </b>
+        <p></p>
+        <p></p>
+
+    </div>
+    <p></p>
+
+
+
+    <h3 id="aggdef_dict">Dictionary Definition of Aggregate</h3>
+    <div class="note-95">
+        <p><b>Oxford Languages</b></p>
+        <p>A whole formed by combining several separate elements.</p>
+
+
+    </div>
+    <p></p>
+
+    <div class="note-97">
+        <p><b>Merriam-Webster Dictionary</b></p>
+        <p>To collect or gather into a mass or whole.</p>
+        <p>Formed by the collection of units or particles into a body, mass,
+            or amount.</p>
+        <p></p>
+
+    </div>
+    <p></p>
+
+    <div class="note-117">
+        <p><b>Cambridge Dictionary</b></p>
+        <p>To combine into a single group or total.</p>
+
+    </div>
+    <p></p>
+
+    <h3 id="aggdef_sql">Definition of Aggregate in SQL</h3>
+    <b></b>
+    <span class="note-bold-red"></span>
+    <div class="note-95">
+        <p><b>Aggregate Functions</b> return a <b>single result row </b>
+            <span class="note-bold-red">BASED ON GROUPS OF ROWS</span>
+
+            rather than on single rows.
+        </p>
+        <p><b>Aggregate Functions</b> can appear in
+            <b>SELECT lists</b>, and in
+            <b>ORDER BY</b> and <b>HAVING</b> Clauses.
+        </p>
+        <p>They are commonly used with the
+            <span class="note-bold-red">GROUP BY Clause</span>
+            in a SELECT statement,
+            where the
+            <b>database divides the rows</b> of a queried table or view into
+            <span class="note-bold-red">GROUPS</span>.
+        </p>
+    </div>
+    <p></p>
+
+    <div class="note-97">
+        <p>In a query containing a
+            <span class="note-bold-red">GROUP BY Clause</span>,
+            the <b>elements</b> of the SELECT list
+            CAN BE;
+        <ul>
+            <span class="note-bold-red">
+                <li>Aggregate Functions</li>
+                <li>GROUP BY expressions</li>
+                <li>constants</li>
+                <li>expressions involving one of the above</li>
+            </span>
+        </ul>
+        </p>
+        <p>The database <b>applies</b> the
+            <b>Aggregate Functions</b> to
+            <span class="note-bold-red"> EACH GROUP of ROWS</span>
+            and
+            returns a
+            <b>SINGLE RESULT</b> row
+            <span class="note-bold-red">for EACH GROUP</span>.
+        </p>
+        <b></b>
+        <span class="note-bold-red"></span>
+
+
+    </div>
+    <p></p>
+
+    <div class="note-95">
+        <p></p>
+        <p>If you <span class="note-bold-red">OMIT</span>
+            the <b>GROUP BY Clause</b>, then database
+            <b>applies</b> Aggregate Functions in the select list to
+            <span class="note-bold-red">ALL THE ROWS</span>
+            in the queried table or view.
+        </p>
+
+    </div>
+    <p></p>
+    <b></b>
+    <span class="note-bold-red"></span>
+    <div class="note-97">
+        <p>You use <b>Aggregate Functions</b> in the
+            <b>HAVING Clause</b> to
+            <span class="note-bold-red">ELIMINATE GROUPS</span>
+            from the output
+            <b>BASED ON the results of the Aggregate Functions</b>,
+            rather than on the values
+            of the individual rows of the queried table or view.
+        </p>
+
+    </div>
+    <p></p>
+
+
+    <h2 id="group">USING the GROUP BY Clause</h2>
+
+    <p></p>
+    <b></b>
+    <span class="note-bold-red"></span>
+    <h3 id="group_ex1">GROUP BY - Example 1</h3>
+    <div class="note-95">
+        <p>To return the <b>SUM of Salaries</b>
+            <span class="note-bold-red">FOR EACH POLITICAL GROUP</span>
+            in the
+            <b>European Parliament</b>,
+            issue the following SELECT statement:
+        </p>
+
+    </div>
+    <p></p>
+
+    <div class="note-charcoal-a30-large">
+        <pre>
+SELECT PG_ID "Political Group",
+SUM(SALARY) "Total Salary"
+FROM	MEPS
+GROUP BY PG_ID
+ORDER BY PG_ID;            
+        </pre>
+
+    </div>
+    <p></p>
+
+    <p></p>
+    <div class="note-97">
+        <p></p>
+        <img src="../images/c7/group_ex1_01.jpg" alt="group_ex1_01.jpg" style="max-width: 100%; height: auto;">
+
+        <p> Last row belongs to the
+            <b>Non-Attached Members</b> of the European Parliament.
+        </p>
+        <p>As we know from our Data Model,
+            the Non-Attached Members of the Parliament
+            have a NULL PG_ID.
+        </p>
+    </div>
+    <p></p>
+
+    <b></b>
+    <span class="note-bold-red"></span>
+    <h3 id="group_ex2">GROUP BY - Example 2</h3>
+    <div class="note-95">
+        <p>To return the
+            <b>MAXIMUM</b> and
+            <b>MINIMUM</b> Salaries
+            <span class="note-bold-red">FOR EACH POLITICAL GROUP</span>
+            in the
+            <b>European Parliament</b>,
+            issue the following SELECT statement:
+        </p>
+
+    </div>
+    <p></p>
+    <div class="note-charcoal-a30-large">
+        <pre>
+SELECT PG_ID "Political Group",	
+MIN(SALARY) "Minimum Salary",	
+MAX(SALARY) "Maximum Salary"
+FROM	MEPS
+GROUP BY PG_ID
+ORDER BY PG_ID;           
+        </pre>
+
+    </div>
+    <p></p>
+    <div class="note-97">
+        <p></p>
+        <img src="../images/c7/group_ex2_01.jpg" alt="group_ex2_01.jpg" style="max-width: 100%; height: auto;">
+
+    </div>
+    <p></p>
+
+    <b></b>
+    <span class="note-bold-red"></span>
+    <h3 id="group_ex3">GROUP BY - Example 3</h3>
+    <div class="note-95">
+        <p>An
+            <span class="note-bold-red">Aggregate Function / Group Function</span>
+            returns <b>ONE Result</b> on a
+            <span class="note-bold-red">Set of Rows</span>.
+        </p>
+
+        <p>This Set can be a <span class="note-bold-red">WHOLE TABLE</span>,
+            in which case
+            <b>the Function</b> works on
+            <span class="note-bold-red">ALL the Rows of the Table</span>
+            and returns
+            <b>ONE Result</b>.
+        </p>
+        <p> For example, the following SELECT Statement returns
+            the <b>MINIMUM</b>,
+            <b>AVERAGE</b> and
+            <b>MAXIMUM</b> salary of all the Member of the Parliaments
+            in <span class="note-bold-red">table MEPS</span>.
+        </p>
+    </div>
+    <p></p>
+    <div class="note-charcoal-a30-large">
+        <pre>
+SELECT MIN(SALARY) "Minimum Salary",
+AVG(SALARY) "Average Salary",
+MAX(SALARY) "Maximum Salary"
+FROM MEPS;        
+        </pre>
+
+    </div>
+    <p></p>
+    <div class="note-97">
+        <p></p>
+        <img src="../images/c7/group_ex3_01.jpg" alt="group_ex3_01.jpg" style="max-width: 100%; height: auto;">
+        <p></p>
+        <p>Because the <b>GROUP BY Clause</b> is
+            <span class="note-bold-red">OMITTED</span>,
+            Aggregate Functions in the SELECT list
+            ( <span class="note-bold-red">MIN, AVG, MAX</span> )
+            are
+            <b>applied</b> to
+            <span class="note-bold-red">ALL THE ROWS</span>
+            of Table MEPS.
+        </p>
+        <p></p>
+    </div>
+    <p></p>
+
+
+    <p></p>
+    <b></b>
+    <span class="note-bold-red"></span>
+    <h3 id="group_ex4">GROUP BY - Example 4</h3>
+    <div class="note-95">
+        <p></p>
+        <p>An
+            <span class="note-bold-red">Aggregate Function / Group Function</span>
+            returns <b>ONE Result</b> on a
+            <span class="note-bold-red">Set of Rows</span>.
+        </p>
+
+        <p>This Set can be a <span class="note-bold-red">SUBSET of a TABLE</span>.
+        </p>
+        <p>In such a case,
+            <b>the Function</b> works on
+            <span class="note-bold-red">the Rows of the SUBSET of the Table</span>
+            and returns
+            <b>ONE Result</b>.
+        </p>
+        <p> For example, the following SELECT Statement returns
+            the <b>MINIMUM</b>,
+            <b>AVERAGE</b> and
+            <b>MAXIMUM</b> salary of the Member of the Parliaments
+            who belong to the
+            <span class="note-bold-red">Political Group with PG_ID=80</span><b></b>
+            within <b>table MEPS</b>.
+        </p>
+    </div>
+    <p></p>
+    <div class="note-charcoal-a30-large">
+        <pre>
+SELECT MIN(SALARY) "Minimum Salary",
+AVG(SALARY) "Average Salary",
+MAX(SALARY) "Maximum Salary"
+FROM MEPS
+WHERE PG_ID=80;          
+        </pre>
+
+    </div>
+    <p></p>
+    <div class="note-97">
+        <p></p>
+        <img src="../images/c7/group_ex4_01.jpg" alt="group_ex4_01.jpg" style="max-width: 100%; height: auto;">
+
+    </div>
+    <p></p>
+
+    <div class="note-117">
+        <p>The clause <span class="note-bold-red">WHERE PG_ID=80</span>
+            specifies a <span class="note-bold-red">SUBSET of table MEPS</span>.
+        </p>
+        <p>Because the <b>GROUP BY Clause</b> is
+            <span class="note-bold-red">OMITTED</span> in the
+            SELECT Statement,
+            <b>Aggregate Functions / Group Functions</b> in the SELECT list
+            ( <span class="note-bold-red">MIN, AVG, MAX</span> )
+            are
+            <b>applied</b> to
+            <span class="note-bold-red">ALL THE ROWS</span>
+            of this <b>SUBSET (Members with PG_ID=80) of MEPS</b>.
+        </p>
+        <p></p>
+        <p></p>
+        <p></p>
+
+    </div>
+    <p></p>
+    <b></b>
+    <span class="note-bold-red"></span>
+    <h3 id="group_ex5">GROUP BY - Example 5</h3>
+    <div class="note-95">
+
+        <p>An
+            <span class="note-bold-red">Aggregate Function / Group Function</span>
+            returns <b>ONE Result</b> on a
+            <span class="note-bold-red">Set of Rows</span>.
+        </p>
+        <p>There can be
+            <span class="note-bold-red">MORE THAN ONE SUBSET</span>
+            that the <b>Aggregate Function / Group Function</b>
+            must operate on.
+        </p>
+        <p>In such a case,
+            <b>the Function</b> works on
+            <span class="note-bold-red">the Rows of EACH SUBSET of the Table</span>
+            and returns
+            <b>ONE Result per SUBSET</b>.
+        </p>
+        <p> For example, the following SELECT Statement returns
+            the <b>MINIMUM</b>,
+            <b>AVERAGE</b> and
+            <b>MAXIMUM</b> salary of the Member of the Parliaments
+            who belong to a Political Group
+            <b>(WHERE PG_ID IS NOT NULL)</b>, i.e.
+            who are
+            <b>NOT Non-Attached Members</b> of the European Parliament.
+        </p>
+        <p>As we know from our Data Model,
+            the Non-Attached Members of the Parliament
+            have a NULL PG_ID.
+        </p>
+
+    </div>
+    <p></p>
+    <div class="note-charcoal-a30-large">
+        <pre>
+SELECT	PG_ID,
+MIN(SALARY) "Minimum Salary",
+AVG(SALARY) "Average Salary",
+MAX(SALARY) "Maximum Salary"
+FROM	MEPS
+WHERE	PG_ID IS NOT NULL
+GROUP BY PG_ID
+ORDER BY PG_ID;           
+        </pre>
+    </div>
+    <p></p>
+    <b></b>
+    <span class="note-bold-red"></span>
+    <div class="note-97">
+
+        <div class="note-97">
+            <p>The SELECT Statement above initially
+                <span class="note-bold-red">ELIMINATES</span>
+                rows with a <b>PG_ID of NULL</b>.
+            </p>
+            <p>This is achieved by the <b>WHERE clause</b>:
+                <span class="note-bold-red">WHERE PG_ID IS NOT NULL</span>
+            </p>
+        </div>
+        <p>Members of the European Parliament belong to
+            <b>Seven DISTINCT Political Groups</b>,
+            identified by their <b>PG_ID</b>.
+        </p>
+
+        <div class="note-97">
+            <p>The SELECT Statement then divides the rows into
+                <span class="note-bold-red">SUBSETS</span>
+                <b>BY EACH PG_ID</b>.
+            </p>
+            <p> This is achieved by the <b>GROUP BY clause</b>:
+                <span class="note-bold-red"> GROUP BY PG_ID</span>
+            </p>
+        </div>
+        <p> <b>SUBSET 1:</b> MEPs who belong to Political Group 1</p>
+        <p> <b>SUBSET 2:</b> MEPs who belong to Political Group 2</p>
+        <p> <b>SUBSET 3:</b> MEPs who belong to Political Group 3</p>
+        <p>:</p>
+        <p>:</p>
+        <p> <b>SUBSET 7:</b> MEPs who belong to Political Group 7</p>
+        <div class="note-97">
+            <p>The SELECT Statement then calculates
+                the
+                <b>MINIMUM</b>,
+                <b>AVERAGE</b>, and
+                <b>MAXIMUM</b> Salaries
+                <span class="note-bold-red">FOR EACH SUBSET</span>.
+            </p>
+            <p>This is achieved by the
+                <b>Aggregate Functions / Group Functions</b> in the
+                SELECT columns list:
+            </p>
+            <ul>
+                <b>
+                    <li>MIN(SALARY)</li>
+                    <li>AVG(SALARY)</li>
+                    <li>MAX(SALARY)</li>
+                </b>
+            </ul>
+            <p></p>
+        </div>
+        <p>Below is the Result Set of this SELECT statement.</p>
+    </div>
+    <p></p>
+    <b></b>
+    <span class="note-bold-red"></span>
+    <div class="note-117">
+        <p></p>
+        <img src="../images/c7/group_ex5_01.jpg" alt="group_ex5_01.jpg" style="max-width: 100%; height: auto;">
+
+    </div>
+    <p></p>
+    <b></b>
+    <span class="note-bold-red"></span>
+    <h3 id="group_ex6">GROUP BY - Example 6</h3>
+    <div class="note-95">
+        <p>We can also <b>GROUP BY</b>
+            <span class="note-bold-red">MORE THAN ONE COLUMN</span>.
+
+        </p>
+        <p>In the example below,
+            Members of the Parliament are
+            divided into
+            <span class="note-bold-red">SUBSETS</span>
+            within
+            <span class="note-bold-red">EACH POLITICAL GROUP</span>,
+            and then within
+            <span class="note-bold-red">EACH COUNTRY</span>.
+        </p>
+        <div class="note-95">
+            This is achieved by the <b>GROUP BY clause:</b>
+            <span class="note-bold-red">GROUP BY PG_ID, COUNTRY_ID</span>
+        </div>
+
+        <p>The SELECT Statement then calculates the
+            <b>MAXIMUM</b> Salary of
+            <span class="note-bold-red">EACH Small SUBSET;</span>
+        </p>
+        <p><b>COUNTRY within a POLITICAL GROUP</b></p>
+    </div>
+    <p></p>
+    <div class="note-charcoal-a30-large">
+        <pre>
+SELECT PG_ID,
+COUNTRY_ID,
+MAX(SALARY) "Maximum Salary"
+FROM	MEPS
+WHERE PG_ID IS NOT NULL
+GROUP BY PG_ID, COUNTRY_ID
+ORDER BY PG_ID, COUNTRY_ID ;           
+        </pre>
+
+    </div>
+    <p></p>
+    <div class="note-97">
+        <p>We can see the Result Set output in three consecutive images
+            below. Not all rows are included.
+        </p>
+        <img src="../images/c7/group_ex6_01.jpg" alt="group_ex6_01.jpg" style="max-width: 100%; height: auto;">
+        <p></p>
+        <img src="../images/c7/group_ex6_02.jpg" alt="group_ex6_02.jpg" style="max-width: 100%; height: auto;">
+
+        <p></p>
+        <img src="../images/c7/group_ex6_03.jpg" alt="group_ex6_03.jpg" style="max-width: 100%; height: auto;">
+
+        <p></p>
+
+    </div>
+    <p></p>
+
+    <h2 id="count">COUNT() Group Function</h2>
+    <b></b>
+    <span class="note-bold-red"></span>
+    <div class="note-95">
+        <b>COUNT(*)</b>
+        <p> <span class="note-bold-red">
+                COUNT(*)
+            </span>
+            returns the number of rows.</p>
+
+    </div>
+    <p></p>
+
+    <div class="note-97">
+        <b>COUNT(column_name)</b>
+        <p> <span class="note-bold-red">
+                COUNT(column_name)
+            </span>
+            returns the number of rows
+            <b>with NON NULL values</b> for the column
+            <b>column_name</b>.
+        </p>
+        <p></p>
+
+    </div>
+    <p></p>
+
+    <div class="note-117">
+        <b>COUNT(DISTINCT column_name)</b>
+        <p> <span class="note-bold-red">
+                COUNT(DISTINCT column_name)
+            </span>
+            returns the number of
+            <b>DISTINCT NON NULL values</b> of the column
+            <b>column_name</b>.
+        </p>
+        <p></p>
+
+    </div>
+    <p></p>
+
+    <h3 id="count_ex1">COUNT(*)</h3>
+    <div class="note-95">
+        <p>The SELECT Statement below
+            returns the number of rows in table MEPS.
+        </p>
+        <p>We can see from the output that
+            there are 787 Members of the European Parliament.
+        </p>
+    </div>
+    <p></p>
+    <div class="note-charcoal-a30-large">
+        <pre>
+SELECT COUNT(*)
+FROM   MEPS;
+    </pre>
+    </div>
+    <p></p>
+    <div class="note-97">
+        <p></p>
+        <img src="../images/c7/count_ex_01.jpg" alt="count_ex_01.jpg" style="max-width: 100%; height: auto;">
+    </div>
+    <p></p>
+
+    <h3 id="count_ex2">COUNT(column_name)</h3>
+    <div class="note-95">
+        <p></p>
+        <p>The SELECT Statement below
+            returns the number of rows in table MEPS,
+            that have
+            <b>NON-NULL Values in column PG_ID</b>.
+        </p>
+        <p>We can see from the output that
+            there are 757 Members of the European Parliament,
+            who belong to a Political Group.
+        </p>
+    </div>
+    <p></p>
+    <div class="note-charcoal-a30-large">
+        <pre>
+SELECT COUNT(PG_ID)
+FROM   MEPS;   
+        </pre>
+    </div>
+    <p></p>
+    <div class="note-97">
+        <p></p>
+        <img src="../images/c7/count_ex_02.jpg" alt="count_ex_02.jpg" style="max-width: 100%; height: auto;">
+    </div>
+    <p></p>
+
+    <div class="note-95">
+        <p>The same result can be obtained
+            with the following SELECT Statement.
+        </p>
+
+    </div>
+    <p></p>
+    <div class="note-charcoal-a30-large">
+        <pre>
+SELECT	COUNT(*)
+FROM	MEPS
+WHERE PG_ID IS NOT NULL; 
+        </pre>
+    </div>
+    <p></p>
+    <div class="note-97">
+        <p></p>
+        <img src="../images/c7/count_ex_04.jpg" alt="count_ex_04.jpg" style="max-width: 100%; height: auto;">
+    </div>
+    <p></p>
+
+
+    <h3 id="count_ex3">COUNT(DISTINCT column_name)</h3>
+    <div class="note-95">
+        <p>The SELECT Statement below, returns the number of
+            <b>DISTINCT NON NULL values</b> of column <b>PG_ID</b>
+            in table MEPS.
+        </p>
+        <p>We already know that there are Seven Political Groups in the
+            European Parliament with Members, and the output confirms that.
+        </p>
+    </div>
+    <p></p>
+    <div class="note-charcoal-a30-large">
+        <pre>
+SELECT COUNT(DISTINCT PG_ID)
+FROM   MEPS;    
+        </pre>
+    </div>
+    <p></p>
+    <div class="note-97">
+        <p></p>
+        <img src="../images/c7/count_ex_03.jpg" alt="count_ex_03.jpg" style="max-width: 100%; height: auto;">
+    </div>
+    <p></p>
+
+    <h3 id="count_ex4">COUNT() Example</h3>
+
+    <div class="note-95">
+        <p><b>Question: </b> How many Members of the Parliament are there per Political Group,
+            in the European Parliament?
+        </p>
+        <p>The Result Set of the following SELECT Statement answers this question.</p>
+    </div>
+    <p></p>
+
+    <div class="note-charcoal-a30-large">
+        <pre>
+SELECT	PG_ID, COUNT(MEP_ID)
+FROM	MEPS
+GROUP BY PG_ID
+ORDER BY PG_ID
+        </pre>
+    </div>
+    <p></p>
+    <img src="../images/c7/count_ex_05.jpg" alt="count_ex_05.jpg" style="max-width: 100%; height: auto;">
+    <p></p>
+
+    <h3 id="count_ex5">Another COUNT() Example</h3>
+
+    <div class="note-95">
+        <p><b>Question: </b>
+            How many distinct countries do the members of each political group belong to?</p>
+        <p>The Result Set of the following SELECT Statement answers this question.</p>
+    </div>
+    <p></p>
+
+
+    <div class="note-charcoal-a30-large">
+        <pre>
+SELECT PG_ID, COUNT(DISTINCT COUNTRY_ID)
+FROM	MEPS
+GROUP BY PG_ID
+ORDER BY PG_ID
+        </pre>
+    </div>
+    <p></p>
+
+    <img src="../images/c7/count_ex_06.jpg" alt="count_ex_06.jpg" style="max-width: 100%; height: auto;">
+    <p></p>
+
+    <h2 id="hv">HAVING Clause</h2>
+
+    <b></b>
+    <span class="note-bold-red"></span>
+    <h3 id="hv_about">HAVING - About</h3>
+    <div class="note-95">
+
+
+        <p><span class="note-bold-red">HAVING Clause</span> works
+            <span class="note-bold-red">AFTER</span>;
+        </p>
+        <ul>
+            <li>the <b>GROUP BY</b> clause <b>DIVIDES</b> the table into <b>SUBSETS</b></li>
+            and
+            <li>the <b>Aggregate Functions/Group Functions</b> are
+                <b>APPLIED</b> on these <b>SUBSETS</b>
+            </li>
+        </ul>
+
+
+
+    </div>
+    <p></p>
+
+    <div class="note-97">
+        <p><span class="note-bold-red">HAVING clause</span>
+            <b>ELIMINATES</b>
+            <span class="note-bold-red">SUBSETS / GROUPS</span>
+            from the Output / the Result Set;
+        </p>
+        <ul>
+            <li>Based on the results of the Aggregate / Group functions
+                that are Applied on the Subsets
+            </li>
+            <li>Rather than on the values of the individual rows of the
+                queried table
+                by using the WHERE clause
+            </li>
+        </ul>
+        <p></p>
+        <p></p>
+    </div>
+    <p></p>
+    <b></b>
+    <div class="note-117">
+        <p>Another way of saying this is:
+        </p>
+        <p> <span style="color:  rgb(144, 36, 143); font-weight: bold;">
+                HAVING eliminates </span>
+            Groups of Rows <b>AFTER </b>
+            the Aggregate Function works on the rows.
+        </p>
+        <p> <span style="color: rgb(144, 36, 143); font-weight: bold;">
+                WHERE eliminates </span>
+            Rows <b>BEFORE </b>
+            the Aggregate Function works on them.
+        </p>
+    </div>
+    <p></p>
+
+    <p></p>
+
+    <img src="../images/c7/roses-05.jpg" alt="roses-05.jpg" style="max-width: 100%; height: auto;">
+    <p></p>
+    <p></p>
+    <h3 id="hv_process_order">HAVING - ORDER of PROCESS</h3>
+    <b></b>
+    <div class="note-97">
+        <p>Here is the <b>ORDER of PROCESS</b>:</p>
+        <ol style="font-size: larger;">
+            <li> <span style="color: rgb(222, 59, 33); font-weight: bold;">
+                    The WHERE Clause</span>, if exists,
+                <b>ELIMINATES the ROWS</b>.
+            </li>
+            <li> <span style="color: rgb(222, 59, 33); font-weight: bold;">
+                    The GROUP BY Clause</span>,
+                <b>DIVIDES</b> the remaining rows,
+                <b>INTO SUBSETS</b>.
+            </li>
+            <li> <span style="color: rgb(222, 59, 33); font-weight: bold;">
+                    The AGGREGATE / GROUP functions</span> are
+                <span style="color: rgb(144, 36, 143); font-weight: bold;">
+                    APPLIED</span>
+                on the <b>SUBSETS</b>.
+            </li>
+            <li><span style="color: rgb(222, 59, 33); font-weight: bold;">
+                    The HAVING Clause </span>
+                <b>ELIMINATES the SUBSETS </b>
+                <span style="color: rgb(144, 36, 143); font-weight: bold;">
+                    BASED ON the Results of the
+                    AGGREGATE / GROUP functions</span>.
+            </li>
+        </ol>
+        <span style="color: rgb(144, 36, 143); font-weight: bold;"></span>
+        <span style="color: rgb(222, 59, 33); font-weight: bold;"></span>
+
+        <p></p>
+        <p></p>
+    </div>
+    <p></p>
+    <b></b>
+    <span class="note-bold-red"></span>
+
+    <h3 id="hv_ex1">HAVING - Example</h3>
+    <ul>
+        <li><a href="#hv_ex1_req">Report Requirements</a></li>
+        <li><a href="#hv_ex1_no">Query with No Restrictions/Eliminations</a></li>
+        <li><a href="#hv_ex1_where">WHERE Clause Elimination</a></li>
+        <li><a href="#hv_ex1_having">HAVING Clause Elimination</a></li>
+    </ul>
+    <h4 id="hv_ex1_req">Report Requirements </h4>
+
+    <div class="note-95">
+        <ul>
+            <li>Create a report which will list the
+                <b>MINIMUM</b>, <b>AVERAGE</b>, and
+                <b>MAXIMUM</b> salaries of the
+                Members of the European Parliament in
+                <b>EACH Political Group</b>.
+            </li>
+            <li>The report will <b>NOT INCLUDE</b> the
+                <b>Non-Attached Members</b> of the European Parliament.
+            </li>
+            <li>The report will <b>ONLY INCLUDE</b>
+                a Political Group if the <b>MINIMUM Salary </b>
+                of that Political Group is <b>LESS THAN 15000</b>.</li>
+        </ul>
+    </div>
+    <p></p>
+    <h4 id="hv_ex1_no">Query with No Restrictions/Eliminations</h4>
+    <div class="note-97">
+        <p>The <b>SQL Query / SELECT Statement</b> below,
+            retrieves the
+            <b>MINIMUM</b>, <b>AVERAGE</b>, and
+            <b>MAXIMUM</b> salaries of the
+            Members of the European Parliament in
+            <b>EACH Political Group</b>
+            <span class="note-bold-red">
+                WITHOUT ANY RESTRICTIONS / ELIMINATIONS</span>.
+        </p>
+
+    </div>
+    <p></p>
+    <div class="note-charcoal-a30-large">
+        <pre>
+SELECT	PG_ID,
+MIN(SALARY) "Minimum Salary",
+AVG(SALARY) "Average Salary",
+MAX(SALARY) "Maximum Salary"
+FROM	MEPS
+GROUP BY PG_ID
+ORDER BY PG_ID;    
+        </pre>
+    </div>
+    <p></p>
+    <div class="note-97">
+        <p>The Result set seen below, lists the <b>MINIMUM</b>, <b>AVERAGE</b>, and
+            <b>MAXIMUM</b> salaries.
+        </p>
+        <p>It lists the <b>Non-Attached Members</b> as well.
+            <b>Non-Attached Members</b> have a <b>PG_ID of NULL</b>.
+        </p>
+        <p>The Result set also lists <b>ALL</b> the Political Groups ,
+            even if their <b>MINIMUM Salary IS NOT LESS THAN 15000</b>.
+        </p>
+
+        <img src="../images/c7/having_ex_01_01.jpg" alt="having_ex_01_01.jpg" style="max-width: 100%; height: auto;">
+        <p></p>
+    </div>
+    <p></p>
+
+    <div class="note-117">
+        <p>We can use the
+            <span class="note-bold-red">WHERE Clause </span>
+            to <b>ELIMINATE</b> the rows of the
+            <b>Non-Attached Members</b>. That is,
+            Members with a <b>PG_ID value of NULL</b>.
+        </p>
+        <p>We can use the
+            <span class="note-bold-red">HAVING Clause </span>
+            to <b>ELIMINATE</b> the SUBSETS divided by
+            the <span class="note-bold-red">GROUP BY Clause </span>,
+            and the <b>Aggregate/Group Functions APPLIED TO</b>.
+            The result of the Aggregate Function
+            <span class="note-bold-red">MIN(SALARY)</span> should be
+            GREATER THAN OR EQUAL TO 15000, to be <b>ELIMINATED</b>.
+
+        </p>
+
+        <img src="../images/c7/having_ex_01_04.jpg" alt="having_ex_01_04.jpg" style="max-width: 100%; height: auto;">
+        <p></p>
+    </div>
+    <p></p>
+
+    <h4 id="hv_ex1_where">WHERE Clause Elimination</h4>
+    <div class="note-95">
+        <p>The query below now includes the
+            <span class="note-bold-red">
+                WHERE Clause which ELIMINATES </span> the rows with
+            a <b>NULL PG_ID</b>.
+
+        </p>
+    </div>
+    <p></p>
+
+    <b></b>
+    <span class="note-bold-red"></span>
+    <div class="note-charcoal-a30-large">
+        <pre>
+SELECT	PG_ID,
+MIN(SALARY) "Minimum Salary",
+AVG(SALARY) "Average Salary",
+MAX(SALARY) "Maximum Salary"
+FROM	MEPS
+WHERE PG_ID IS NOT NULL
+GROUP BY PG_ID
+ORDER BY PG_ID;    
+        </pre>
+    </div>
+    <p></p>
+    <div class="note-97">
+        <p>Now, the Result Set of the Query,
+            <span class="note-bold-red">DOES NOT INCLUDE</span>
+            the
+            <b>Non-Attached Members (PG_ID value NULL) </b>
+            of the European Parliament.
+        </p>
+
+
+        <p></p>
+        <img src="../images/c7/having_ex_01_03.jpg" alt="having_ex_01_03.jpg" style="max-width: 100%; height: auto;">
+        <p></p>
+    </div>
+    <p></p>
+    <h4 id="hv_ex1_having">HAVING Clause Elimination</h4>
+
+    <p></p>
+    <div class="note-95">
+        <p>The query below now includes the
+            <span class="note-bold-red">
+                HAVING Clause which ELIMINATES </span>
+            the GROUPS with
+            <b>MINIMUM Salary NOT LESS THAN 15000</b>.
+
+        </p>
+    </div>
+    <p></p>
+    <div class="note-charcoal-a30-large">
+        <pre>
+SELECT	PG_ID,
+MIN(SALARY) "Minimum Salary",
+AVG(SALARY) "Average Salary",
+MAX(SALARY) "Maximum Salary"
+FROM	MEPS
+WHERE PG_ID IS NOT NULL
+GROUP BY PG_ID
+HAVING MIN(SALARY) < 15000
+ORDER BY PG_ID;
+                
+        </pre>
+    </div>
+    <p></p>
+
+
+    <div class="note-97">
+        <p>Now, the Result Set of the Query
+            <span class="note-bold-red">ONLY INCLUDES</span>
+            those Political Groups
+            (SUBSETS of the MEPS table
+            GROUPED BY their PG_ID)
+            if the <b>MINIMUM Salary </b>
+            of that Political Group is
+            <b>LESS THAN 15000</b>.
+        </p>
+        <p></p>
+        <img src="../images/c7/having_ex_01_05.jpg" alt="having_ex_01_05.jpg" style="max-width: 100%; height: auto;">
+    </div>
+    <p></p>
+
+    <div class="note-117">
+        <p>This resumes the example.</p>
+
+    </div>
+    <p></p>
+
+
+    <b></b>
+    <span class="note-bold-red"></span>
+    <h2 id="fl">FIRST and LAST</h2>
+  
+    <ul>
+        <li><a href="#fl_req">FIRST and LAST &mdash; Report Requirements</a></li>
+        <li><a href="#fl_feel">A Feel of Our Data</a></li>
+        <li><a href="#fl_sel">FIRST and LAST &mdash; SELECT Statement</a></li>
+        <li><a href="#fl_about">FIRST and LAST &mdash; About</a></li>
+    </ul>
+
+
+        <h3 id="fl_req">FIRST and LAST &mdash; Report Requirements </h3>
+            <div class="note-95">
+                <p></p>
+
+
+                <p>Create a report which will list;</p>
+                <ul>
+                    <li>the <b>MAXIMUM GDP_PPS</b> among those Countries
+                        which
+                        <span class="note-bold-red">
+                            JOINED the EU the Earliest
+                        </span>
+                    </li>
+                    and
+                    <li>the
+                        <b>MINIMUM GDP_PPS</b> among those Countries
+                        which
+                        <span class="note-bold-red">
+                            JOINED the EU the Latest</span>
+                    </li>
+                </ul>
+
+            </div>
+            <p></p>
+
+                <div class="note-97">
+                    <p> <b>EARLIEST</b> &rarr;
+                        <span class="note-bold-red">
+                            Oldest / FIRST JOIN_DATE
+                        </span>
+                    </p>
+
+                    <p> <b>LATEST</b> &rarr;
+                        <span class="note-bold-red">
+                            Youngest / LAST JOIN_DATE
+                        </span>
+                    </p>
+                </div>
+                <p></p>
+
+                <div class="note-95">       
+                <p>Our Report will look like the following.</p>
+                <p>The numbers are symbolic.</p>
+            </div>
+            <p></p>
+
+                <table>
+                    <tr>
+                        <th>MAX GDP_PPS in Earliest Joiners</th>
+                        <th>MIN GDP_PPS in Latest Joiners</th>
+                    </tr>
+                    <tr>
+                        <td>987654321</td>
+                        <td>123</td>
+                    </tr>
+
+                </table>
+                <p></p>  <p></p>
+                <div class="note-95">                  
+                <p>The Result Set of the SELECT Statement we will write, will only have
+                    <b>1 ROW</b>, and <b>2 COLUMNS</b>, as seen above.
+                </p>
+                <p><b>The 1<sup>st</sup> Column</b>
+                    will hold
+                    the
+                    <b>"GDP_PPS value of the Country"</b>
+                    which has the <b>HIGHEST(MAXIMUM) GDP_PPS</b>
+                    among the <b>Earliest Joiners</b>.
+                </p>
+
+                </p>
+                <p><b>The 2<sup>nd</sup> Column</b>
+                    will hold
+                    the
+                    <b>"GDP_PPS value of the Country"</b>
+                    which has the <b>LOWEST(MINIMUM) GDP_PPS</b>
+                    among the <b>Latest Joiners</b>.
+                </p>
+                <p>The data we will work on is in table <b>COUNTRIES</b>.</p>
+            </div>
+            <p></p>
+
+            <h3 id="fl_feel">A Feel of Our Data</h3>
+
+            <div class="note-95">
+                <p>As the data we will work on is in 
+                    table <b>COUNTRIES</b>,
+                    let's have a feel of our data.
+                </p>
+                <p>We write the following 
+                    SELECT Statement.
+                </p>
+
+            </div>
+            <p></p>
+            <div class="note-charcoal-a30-large">
+                <pre>
+SELECT	COUNTRY_ID
+,	COUNTRY_NAME
+,	JOIN_DATE
+,	GDP_PPS
+FROM	COUNTRIES
+WHERE	STATUS='M'
+ORDER BY JOIN_DATE ASC
+, 	GDP_PPS DESC;
+        </pre>
+            </div>
+            <p></p>
+         
+
+<p></p>
+<div class="note-95">
+    <p></p>
+<ul>
+    <li>This SELECT Statement retrieves only the 
+        <b>Member Countries (STATUS='M')</b>.</li>
+    <li>It ORDERS the Member Countries in 
+        ascending order of their date of join 
+         <b>(JOIN_DATE ASC)</b>.  </li>
+    <li>This causes the countries to be ordered such that the 
+        <b>Earliest Joiners are FIRST</b>, and the 
+        <b>Latest Joiners are LAST</b>.</li>
+    <li>Within date of join, Countries are ordered 
+        in descending order of their 
+        purchasing power standard <b>(GDP_PPS DESC)</b></li>
+    <li>This causes the countries with the 
+        highest purchasing power standard <b>MAX(GDP_PPS)</b>
+        to be listed <b>FIRST</b> within their 
+        Date of Join Set.</li>
+    <li>Also, this causes the countries with the 
+        lowest purchasing power standard <b>MIN(GDP_PPS)</b>
+        to be listed <b>LAST</b> within their 
+        Date of Join Set.</li>
+</ul>
+
+
+</div>
+<p></p>
+<p></p>
+<div class="note-97">
+<p>The Result Set of the SELECT Statement can be seen below.</p>
+                <img src="../images/c7/fl_02.jpg" alt="fl_02.jpg" style="max-width: 100%; height: auto;">
+            </div>
+            <p></p>
+            <div class="note-97">
+                <p></p>
+                <p>The Result Set of the SELECT Statement 
+                    with the 
+                    <b>SUBSET of Earliest Joiners</b>, and the 
+<b>SUBSET of Latest Joiners</b>.</p>
+                <img src="../images/c7/fl_03.jpg" alt="fl_03.jpg" style="max-width: 100%; height: auto;">
+            </div>
+            <p></p>
+
+            <p></p>
+
+<h3 id="fl_sel">FIRST and LAST &mdash; SELECT Statement </h3>
+            <div class="note-95">
+<p>Below is the SELECT Statement 
+    which retrieves the data for our Report.</p>
+                <p>The SELECT Statement uses 
+  the Clauses <b>FIRST</b>  and          <b>LAST</b>.        
+                </p>
+            </div>
+            <p></p>
+            <div class="note-charcoal-a30-large">
+                <pre>
+SELECT MAX(GDP_PPS) KEEP (DENSE_RANK FIRST ORDER BY JOIN_DATE) 
+"MAX GDP PPS Over FIRST Join Date",
+MIN(GDP_PPS) KEEP (DENSE_RANK LAST ORDER BY JOIN_DATE) 
+"MIN GDP PPS Over LAST Join Date"
+FROM	COUNTRIES
+WHERE	STATUS='M';
+        </pre>
+            </div>
+            <p></p>
+            <div class="note-97">
+                <p>The output of our report can be seen below.</p>
+                <p></p>
+                <img src="../images/c7/fl_01.jpg" alt="fl_01.jpg" style="max-width: 100%; height: auto;">
+
+
+            </div>
+            <p></p>
+
+        <h3 id="fl_about">FIRST and LAST &mdash; About</h3>
+            <div class="note-95">
+     
+                    <p><b>FIRST</b> and <b>LAST</b> are both 
+                        <b>Aggregate</b> and <b>Analytic</b> functions.
+
+                    </p>
+<p>They operate on a set of values from 
+a set of rows that rank as the <b>FIRST</b> 
+ or <b>LAST</b>  with respect to a given sorting specification.
+                        </p>
+<p>The <b>Aggregate</b> function can be; 
+    <ul>
+        <li>MIN</li>
+        <li>MAX</li>
+        <li>SUM</li>
+        <li>AVG</li>
+        <li>COUNT</li>
+        <li>VARIANCE</li>
+        <li>STDDEV</li>
+    </ul>
+                        </p>
+                    <p></p>
+            </div>
+            <p></p>
+
+          
+            <div class="note-97">
+                <p>The <b>KEEP</b> keyword is for semantic clarity. 
+                </p>
+<p>It indicates that only the <b>FIRST</b> 
+    or the <b>LAST</b> values 
+    of the Aggregate function will be returned.
+                </p>
+            </div>
+            <p></p>
+
+            <div class="note-117">
+                <p>
+                    <b>DENSE_RANK FIRST</b> or  
+                    <b>DENSE_RANK LAST</b> indicates that 
+                    the database 
+                    will 
+                    aggregate over only those rows with 
+                    the 
+                    <b>minimum (FIRST) </b> or 
+               the     <b>maximum (LAST) </b> dense rank,
+               which is also called 
+               <b>Olympic Rank</b>.
+                </p>
+                <p></p>
+            </div>
+            <p></p>
+
+
+            <!--  -->
+            <p></p>
+
+            <div class="note-97">
+                <p>This resumes the Chapter on Aggregate Functions. </p>
+                <img src="../images/c7/garden-9984.jpg" style="max-width:100% ;" height="auto" alt="Breath of Fresh Air">
+
+                <p> </p>
+
+            </div>
+            <p></p>
+
+            <!--  -->
+            <!-- my comments -->
+            <h2 id="references">References</h2>
+
+
+
+            <div class="note-charcoal-a30">
+
+                <ul>
+
+                    <li>Oracle&#174; Database, Database Concepts, 21c, F31733-04, August 2021</li>
+                    <li>Oracle&#174; Database, 2 Day Developer's Guide, 21c, F32609-01, December 2020 </li>
+                    <li>Oracle&#174; Database, SQL Language Reference, 23c F47038-03, June 2023</li>
+                    <li>Oracle&#174; Database, SQL Language Reference, 21c F31301-07, March 2022</li>
+                    <li>Oracle&#174; Database, Data Warehousing Guide, 23c F46734-02, May 2023</li>
+                    <li>Oracle&#174; Database, Database Reference, 21c, F31274-15, August 2022</li>
+                    <li>Oracle&#174; Database, Object-Relational Developer's Guide, 21c, F32263-01, December 2020</li>
+                    <li>C.J. Date, An Introduction to Database Systems 7th Edition, Addison-Wesley ISBN 0-201-38590-2
+                    </li>
+                    <li>Richard Barker, Case*Method, Entity Relationship Modelling, Addison-Wesley ISBN 0-201-41696-4
+                    </li>
+                    <li>https://docs.oracle.com/en/database/oracle/oracle-database/23/data-warehousing.html</li>
+                </ul>
+            </div>
+
+            <div class="note-117">
+
+
+
+                <ul>
+                    <li>ISBN 92-79-03653-X , How the European Union works: Booklet by EU Publications Office
+                    </li>
+                    <li>ISBN 978-92-824-2203-8, Information handbook of the Council of the European Union, DG Press,
+                        General
+                        Secretariat of the Council</li>
+
+                    <li>European Union
+                        <p><a href="https://europa.eu/european-union/index_en" target="_blank">
+                                https://europa.eu/european-union/index_en</a> </p>
+
+                    </li>
+
+                    <li>European Council
+                        <p><a href="https://www.consilium.europa.eu/en/" target="_blank">
+                                https://www.consilium.europa.eu/en/</a>
+                        </p>
+                    </li>
+                    <li>European Parliament
+                        <p> <a href="https://www.europarl.europa.eu/portal/en" target="_blank">
+                                https://www.europarl.europa.eu/portal/en</a> </p>
+
+                    </li>
+                    <li>The Official Directory of the European Union (Who is Who)
+                        <p><a href="  https://op.europa.eu/en/web/who-is-who" target="_blank">
+                                https://op.europa.eu/en/web/who-is-who </a> </p>
+                    </li>
+                </ul>
+            </div>
+            <p></p>
+            <img src="../images/c7/deu.png" style="max-width:100% ;" height="auto" alt="just me">
+            <p></p>
+</body>
+
+</html>
